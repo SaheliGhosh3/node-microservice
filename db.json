@@ -1,0 +1,37 @@
+{
+  "users": [
+    {
+      "employeeId": 1,
+      "employeeName": "Jhon Smith",
+      "claimNumber": 1,
+      "claimType": "",
+      "claimPrograms": "",
+      "claimDescription": "",
+      "claimStartdate": "",
+      "claimEnddate": "",
+      "status": "active"
+    },
+    {
+      "employeeId": 2,
+      "employeeName": "Stev Smith",
+      "claimNumber": 12,
+      "claimType": "",
+      "claimPrograms": "",
+      "claimDescription": "",
+      "claimStartdate": "",
+      "claimEnddate": "",
+      "status": "active"
+    },
+    {
+      "employeeId": 3,
+      "employeeName": "Ann ruh",
+      "claimNumber": 13,
+      "claimType": "",
+      "claimPrograms": "",
+      "claimDescription": "",
+      "claimStartdate": "",
+      "claimEnddate": "",
+      "status": "active"
+    }
+  ]
+}
