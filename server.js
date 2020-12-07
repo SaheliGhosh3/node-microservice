@@ -13,7 +13,7 @@ server.use(router)
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 
-const routes1 = require('./routes/routes.js')(server, fs);
+const routes1 = require('./routes/routes.js')(server, router);
 server.listen(3001, () => {
   console.log('JSON Server is running')
 })
