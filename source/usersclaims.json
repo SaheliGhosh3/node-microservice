@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "employeeId": 1,
+      "id": 1,
       "employeeName": "Jhon Smith",
       "claimNumber": 1,
       "claimType": "",
@@ -12,7 +12,7 @@
       "status": "active"
     },
     {
-      "employeeId": 2,
+      "id": 2,
       "employeeName": "Stev Smith",
       "claimNumber": 12,
       "claimType": "",
@@ -23,7 +23,7 @@
       "status": "active"
     },
     {
-      "employeeId": 3,
+      "id": 3,
       "employeeName": "Ann ruh",
       "claimNumber": 13,
       "claimType": "",

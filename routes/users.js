@@ -1,75 +1,89 @@
-const userRoutes = (server, router) => {
-
-    const _ = require('lodash');
+const userRoutes = (server) => {
     const axios = require('axios');
     /**
          * Get all users
          * 
     **/
     server.get('/getuserclaims', (req, res) => {
-        const db = router.db; // Assign the db instance
-        const table = db.get(collection);
+        axios.get('http://localhost:3000/users')
+            .then(resp => {
+                const data = resp.data;
+                console.log(JSON.stringify(data));
+                res.end(JSON.stringify(data));
 
-        res.writeHead(200, { 'Content-type': 'application/json' });
-        res.sendStatus(200)
-        res.end(JSON.stringify(table));
-
+            })
+            .catch(error => {
+                console.log(error);
+                res.end(error);
+            });
     });
     /**
-         * Add New user details
-         * 
+     * Add New user details
+     * 
     **/
     server.post('/adduserclaim', (req, res) => {
-        const db = router.db; // Assign the db instance
-        if (Array.isArray(req.body)) {
-            req.body.forEach(element => {
-                insert(db, 'users', element);
+        const newUserObj = req.body;
+        axios.post('http://localhost:3000/users/', newUserObj).then(resp => {
+            console.log(resp.data);
+            res.status(200).jsonp({
+                message: "New user Added",
+                data: newUserObj
             });
-        }
-        else {
-            insert(db, 'users', req.body);
-        }
-        res.sendStatus(200)
-        /**
-         * Checks whether the id of the new data already exists in the DB
-         * @param {*} db - DB object
-         * @param {String} collection - Name of the array / collection in the DB / JSON file
-         * @param {*} data - New record
-         */
-        function insert(db, collection, data) {
-            const table = db.get(collection);
 
-            // Create a new user if ID does not exist
-            if (_.isEmpty(table.find({ employeeId: data.employeeId }).value())) {
-                table.push(data).write();
-            }
-            else {
-                // Update the existing data
-                table.find({ employeeId: data.employeeId })
-                    .assign(_.omit(data, ['employeeId']))
-                    .write();
-            }
-        }
+        }).catch(error => {
+            res.status(500).jsonp({
+                message: error.message
+            });
+        });
 
     });
     /**
-         * Update user details with employee id
-         * 
+     * Update user details with employee id
+     * 
     **/
     server.put('/updateuserclaims/:id/', (req, res) => {
         if (req.method === 'PUT') {
-            let newObj = req.body;
-            let employeeId = Number(req.params.id);
-            if (employeeId && newObj) {
-                if (router.db.get('users').find(employeeId)) {
-                    res.status(200).jsonp(
-                        router.db.get('users').find(employeeId).assign(newObj).value());
-                    router.db.write();
-                } else {
-                    res.status(400).jsonp({
-                        error: "Bad id"
+            const updateUserObj = req.body;
+            const employeeId = Number(req.params.id);
+            if (employeeId) {
+                axios.put(`http://localhost:3000/users/${employeeId}/`, updateUserObj).then(resp => {
+                    res.status(200).jsonp({
+                        message: "User updated",
+                        data: (JSON.stringify(resp.data))
                     });
-                }
+                    console.log(resp.data);
+                }).catch(error => {
+                    res.status(400).jsonp({
+                        error: error
+                    });
+                    console.log(error);
+                });
+            } else {
+                res.status(400).jsonp({
+                    error: "No valid id"
+                });
+            }
+        }
+    });
+    /**
+     * Delete user details with employee id
+     * 
+    **/
+    server.delete('/deleteuser/:id/', (req, res) => {
+        if (req.method === 'DELETE') {
+            const employeeId = Number(req.params.id);
+            if (employeeId) {
+                axios.delete(`http://localhost:3000/users/${employeeId}/`).then(resp => {
+                    res.status(200).jsonp({
+                        message: "User Deleted"
+                    });
+                    console.log(resp.data);
+                }).catch(error => {
+                    res.status(400).jsonp({
+                        error: error
+                    });
+                    console.log(error);
+                });
             } else {
                 res.status(400).jsonp({
                     error: "No valid id"
@@ -78,32 +92,6 @@ const userRoutes = (server, router) => {
         }
     });
 
-    server.use(router);
-    axios.get('http://localhost:3001/users')
-        .then(resp => {
-            const data = resp.data;
-            data.forEach(e => {
-                console.log(`${e.employeeId}, ${e.claimNumber}, ${e.employeeName}`);
-            });
-        })
-        .catch(error => {
-            console.log(error);
-        });
-
-
-    axios.put('http://localhost:3001/put/3', {
-        claimType: "Gold",
-        claimPrograms: "Benificial",
-        claimDescription: "xyz",
-        claimStartdate: "",
-        claimEnddate: ""
-    }).then(resp => {
-
-        console.log(resp.data);
-    }).catch(error => {
-
-        console.log(error);
-    });
 };
 
 module.exports = userRoutes;

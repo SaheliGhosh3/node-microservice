@@ -1,6 +1,6 @@
 const userRoutes = require('./users');
 
-const appRouter = (app, fs) => {
+const appRouter = (app) => {
 
     // default route
     app.get('/', (req, res) => {
@@ -8,7 +8,7 @@ const appRouter = (app, fs) => {
     });
 
     // User routes
-    userRoutes(app, fs);
+    userRoutes(app);
 
 };
 
