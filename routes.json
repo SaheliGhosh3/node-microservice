@@ -1,6 +1,0 @@
-{
-  "/api/*": "/$1",
-  "/api/getuserclaims": "/getuserclaims",
-  "/:resource/:id/show": "/:resource/:id"
- 
-}
