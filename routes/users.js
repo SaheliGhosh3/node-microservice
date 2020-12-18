@@ -1,8 +1,9 @@
+import { NOT_FOUND_ERROR_MESSAGE, USER_ADDED_SUCCESS_MESSAGE, USER_UPDATED_SUCCESS_MESSAGE, USER_DELETED_SUCCESS_MESSAGE } from './constants';
 const userRoutes = (server) => {
     const axios = require('axios');
     /**
-         * Get all users
-         * 
+     * Get all users
+     * 
     **/
     server.get('/getuserclaims', (req, res) => {
         axios.get('http://localhost:3000/users')
@@ -26,7 +27,7 @@ const userRoutes = (server) => {
         axios.post('http://localhost:3000/users/', newUserObj).then(resp => {
             console.log(resp.data);
             res.status(200).jsonp({
-                message: "New user Added",
+                message: USER_ADDED_SUCCESS_MESSAGE,
                 data: newUserObj
             });
 
@@ -48,7 +49,7 @@ const userRoutes = (server) => {
             if (employeeId) {
                 axios.put(`http://localhost:3000/users/${employeeId}/`, updateUserObj).then(resp => {
                     res.status(200).jsonp({
-                        message: "User updated",
+                        message: USER_UPDATED_SUCCESS_MESSAGE,
                         data: (JSON.stringify(resp.data))
                     });
                     console.log(resp.data);
@@ -60,7 +61,7 @@ const userRoutes = (server) => {
                 });
             } else {
                 res.status(400).jsonp({
-                    error: "No valid id"
+                    error: NOT_FOUND_ERROR_MESSAGE
                 });
             }
         }
@@ -75,7 +76,7 @@ const userRoutes = (server) => {
             if (employeeId) {
                 axios.delete(`http://localhost:3000/users/${employeeId}/`).then(resp => {
                     res.status(200).jsonp({
-                        message: "User Deleted"
+                        message: USER_DELETED_SUCCESS_MESSAGE
                     });
                     console.log(resp.data);
                 }).catch(error => {
@@ -86,7 +87,7 @@ const userRoutes = (server) => {
                 });
             } else {
                 res.status(400).jsonp({
-                    error: "No valid id"
+                    error: NOT_FOUND_ERROR_MESSAGE
                 });
             }
         }
